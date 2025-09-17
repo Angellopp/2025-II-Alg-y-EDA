@@ -10,9 +10,8 @@ void DemoVector(){
     a.insert(y);
     a.insert(z);
 
-    CVector<int> b(a); 
-    b[0] = 99;              
+    CVector<int> b(std::move(a));
+    cout << b << endl;                       // "1 2 3"
+    cout << a.size() << endl;                // "0" (a quedo vacio)
 
-    cout << a << endl;      //  "1 2 3"
-    cout << b << endl;      //  "99 2 3"
 }

@@ -6,7 +6,7 @@
 //      3 problemas de nivel 1
 // Cada solucion enviarla como un Pull request
 
-// TODO (Nivel 2): Agregar Traits ✅
+// TODO (Nivel 2): Agregar Traits 
 
 // TODO (Nivel 2): Agregar Iterators (forward, backward)
 
@@ -20,10 +20,10 @@ class CVector{
     size_t  m_count = 0; // How many elements we have now?
     size_t  m_max   = 0; // Max capacity
 public:
-    // TODO  (Nivel 1) Agregar un constructor por copia
+    // TODO  (Nivel 1) Agregar un constructor por copia ✅
     CVector(const CVector &v);
     CVector(size_t n);
-    // TODO  (Nivel 2): Agregar un move constructor
+    // TODO  (Nivel 2): Agregar un move constructor ✅
     CVector(CVector &&v);
 
     // TODO: (Nivel 1) implementar el destructor de forma segura
@@ -40,6 +40,17 @@ private:
 template <typename T>
 CVector<T>::CVector(size_t n){
     Init(n);
+}
+
+// Move constructor
+template <typename T>
+CVector<T>::CVector(CVector &&v)
+    : m_pVect(v.m_pVect),
+      m_count(v.m_count),
+      m_max(v.m_max) {
+    v.m_pVect = nullptr;
+    v.m_count = 0;
+    v.m_max   = 0;
 }
 
 template <typename T>

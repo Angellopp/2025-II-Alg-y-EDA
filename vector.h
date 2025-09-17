@@ -6,7 +6,7 @@
 //      3 problemas de nivel 1
 // Cada solucion enviarla como un Pull request
 
-// TODO (Nivel 2): Agregar Traits
+// TODO (Nivel 2): Agregar Traits ✅
 
 // TODO (Nivel 2): Agregar Iterators (forward, backward)
 
@@ -21,10 +21,8 @@ class CVector{
     size_t  m_max   = 0; // Max capacity
 public:
     // TODO  (Nivel 1) Agregar un constructor por copia
-    CVector(CVector &v);
-
+    CVector(const CVector &v);
     CVector(size_t n);
-    CVector(CVector &v);
     // TODO  (Nivel 2): Agregar un move constructor
     CVector(CVector &&v);
 
@@ -45,20 +43,26 @@ CVector<T>::CVector(size_t n){
 }
 
 template <typename T>
-CVector<T>::CVector(CVector &v) 
-          : m_max(v.m_max), 
-            m_count(v.m_count) {
-    if (m_max > 0)
-        m_pVect = new T[m_max];
-    for (size_t i = 0; i < m_count; ++i)
-        m_pVect[i] = v[i];       
+CVector<T>::CVector(const CVector &v)
+        : m_pVect(nullptr),
+          m_count(v.m_count),
+          m_max(v.m_max) {
+    if (m_max > 0) {
+        // value-init para evitar basura en posiciones no usadas
+        m_pVect = new T[m_max]();
+        for (size_t i = 0; i < m_count; ++i) {
+            m_pVect[i] = v.m_pVect[i];
+        }
+    }
 }
+
+
 
 // TODO (Nivel 1): hacer dinamico el delta de crecimiento
 template <typename T>
 void CVector<T>::resize(){
     T *pTmp = new T[m_max+10];
-    for(auto i=0; i < m_max ; ++i)
+    for(auto i=0; i < (int)m_max ; ++i)
         pTmp[i] = m_pVect[i];
     delete [] m_pVect;
     m_max += 10;

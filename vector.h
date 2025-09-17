@@ -1,5 +1,7 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
+#include <iterator>
+#include <stdexcept>
 
 // PC1: deben hacer:
 //      2 problemas de nivel 2
@@ -8,18 +10,21 @@
 
 // TODO (Nivel 2): Agregar Traits 
 
-// TODO (Nivel 2): Agregar Iterators (forward, backward)
+// TODO (Nivel 2): Agregar Iterators (forward, backward) ✅
 
 // TODO (Nivel 1): Agregar Documentacion para generar con doxygen
 
 // TODO  (Nivel 2): Agregar control de concurrencia en todo el vector
 template <typename T>
 class CVector{
-   
     T      *m_pVect = nullptr;
     size_t  m_count = 0; // How many elements we have now?
     size_t  m_max   = 0; // Max capacity
 public:
+    using iterator               = T*;
+    using const_iterator         = const T*;
+    using reverse_iterator       = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
     // TODO  (Nivel 1) Agregar un constructor por copia ✅
     CVector(const CVector &v);
     CVector(size_t n);
@@ -28,9 +33,20 @@ public:
 
     // TODO: (Nivel 1) implementar el destructor de forma segura ✅
     virtual ~CVector();
+
     void insert(T &elem);
     T&   operator[](size_t index);
     size_t size() const { return m_count; }
+    // Iteradores forward
+    iterator begin() { return m_pVect; }
+    iterator end()   { return m_pVect + m_count; }
+    const_iterator begin() const { return m_pVect; }
+    const_iterator end()   const { return m_pVect + m_count; }
+    // Iteradores backward
+    reverse_iterator rbegin() { return reverse_iterator(end()); }
+    reverse_iterator rend()   { return reverse_iterator(begin()); }
+    const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+    const_reverse_iterator rend()   const { return const_reverse_iterator(begin()); }
 private:
     void resize();
     void Init(size_t n);
@@ -69,7 +85,7 @@ CVector<T>::CVector(const CVector &v)
 
 
 
-// TODO (Nivel 1): hacer dinamico el delta de crecimiento
+// TODO (Nivel 1): hacer dinamico el delta de crecimiento ✅
 template <typename T>
 void CVector<T>::resize(){
     size_t newCap;

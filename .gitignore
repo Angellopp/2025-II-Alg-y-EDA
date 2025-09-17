@@ -2,3 +2,4 @@ main
 *.o
 main.dSYM
 main.exe
+.vscode/

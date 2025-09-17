@@ -4,13 +4,10 @@
 using namespace std;
 
 void DemoVector(){
-    {
-        CVector<int> tmp(10);
-        int x = 1; 
-        tmp.insert(x);
-        tmp.insert(x);
-        cout << tmp << endl; // "1"
-        // aquí al salir del bloque se deberia llama al destructor ~CVector()
-    }
-    cout << "Fin de bloque (destructor invocado)" << endl;
+    CVector<int> v(0);
+    for (int i = 1; i <= 100; ++i) v.insert(i);
+    cout << "size = " << v.size() << endl;
+    // Se muestra ultimos 5 para corroborrar
+    for (size_t i = v.size() - 5; i < v.size(); ++i) cout << v[i] << ' ';
+    cout << endl; // "... 96 97 98 99 100"
 }

@@ -19,29 +19,29 @@ void DemoBinaryTree(){
         bt.insert(par.first, par.second);
     std::cout << bt << std::endl;
 
-    std::cout << "Inorder traversal:" << std::endl;
-    // bt.inorder();
+    std::cout << "Inorder :" << std::endl;
+    bt.inorder_variadic(PrintWithLabel, std::cout, std::string("[Nodo]"));
     std::cout << std::endl;
 
-    std::cout << "Preorder traversal:" << std::endl;
-    // bt.preorder();
+    std::cout << "Preorder :" << std::endl;
+    bt.preorder_variadic(PrintWithLabel, std::cout, std::string("[Nodo]"));
     std::cout << std::endl;
 
-    std::cout << "Postorder traversal:" << std::endl;
-    // bt.postorder();
+    std::cout << "Postorder :" << std::endl;
+    bt.postorder_variadic(PrintWithLabel, std::cout, std::string("[Nodo]"));
     std::cout << std::endl;
 
     std::cout << "Tree structure:" << std::endl;
     // bt.print();
     std::cout << std::endl;
 
-    // std::cout << "Imprimiendo con forward iterator" << std::endl;
-    // foreach(bt. begin(), bt. end(), ::Print<T1>);
-    // std::cout << std::endl;
+    std::cout << "Imprimiendo con forward iterator" << std::endl;
+    foreach(bt. begin(), bt. end(), ::Print<T1>);
+    std::cout << std::endl;
 
-    // std::cout << "Imprimiendo con backward iterator" << std::endl;
-    // foreach(bt.rbegin(), bt.rend(), ::Print<T1>);
-    // std::cout << std::endl;
+    std::cout << "Imprimiendo con backward iterator" << std::endl;
+    foreach(bt.rbegin(), bt.rend(), ::Print<T1>);
+    std::cout << std::endl;
     
     // std::ofstream of("BT.txt");
     // bt.Write(of);

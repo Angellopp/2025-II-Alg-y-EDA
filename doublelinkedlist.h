@@ -5,6 +5,8 @@
 #include "traits.h"
 
 template <typename Traits>
+template <typename Traits> class CDoubleLinkedList;
+template <typename Traits> std::ostream& operator<<(std::ostream& os, CDoubleLinkedList<Traits>& obj);
 class DLLNode{
 private:
     using    value_type = typename Traits::value_type;
@@ -36,7 +38,7 @@ public:
 };
 
 // 
-// TODO Activar el forward_iterator
+// TODO ITERATORS
 template <typename Container>
 class forward_double_linkedlist_iterator{
  private:
@@ -57,8 +59,8 @@ class forward_double_linkedlist_iterator{
 
      // Diff
      iterator operator++(){ 
-         if(m_pNode)
-             m_pNode = m_pNode->GetNext();
+         if (m_pNode)
+            m_pNode = m_pNode->GetNext();
          return *this;
      }
      value_type &operator*(){    return m_pNode->GetDataRef();   }
@@ -135,14 +137,7 @@ public:
     backward_iterator rbegin(){ return backward_iterator(this, m_pTail); };
     backward_iterator rend()  { return backward_iterator(this, nullptr); } 
 
-    friend std::ostream& operator<<(std::ostream &os, CDoubleLinkedList<Traits> &obj){
-        auto pRoot = obj.GetRoot();
-        while( pRoot ){
-            os << pRoot->GetData() << "(" << pRoot->GetRef() << ") ";
-            pRoot = pRoot->GetNext();
-        }
-        return os;
-    }
+    friend std::ostream& operator<<(std::ostream &os, CDoubleLinkedList<Traits> &obj)
 public:
     // Persistence
     std::ostream &Write(std::ostream &os) { return os << *this; }
@@ -181,9 +176,32 @@ template <typename Traits>
 CDoubleLinkedList<Traits>::CDoubleLinkedList(){}
 
 // TODO Constructor por copia
-//      Hacer loop copiando cada elemento
+//      Hacer loop copiando cada elemento (CONSTRUCTOR COPIA)
 template <typename Traits>
-CDoubleLinkedList<Traits>::CDoubleLinkedList(CDoubleLinkedList &other){
+CDoubleLinkedList<Traits>::CDoubleLinkedList(CDoubleLinkedList &other)
+    : m_pRoot(nullptr),
+      m_pTail(nullptr),
+      m_nElem(0),
+      m_fCompare(other.m_fCompare)
+{
+    if (!other.m_pRoot) return;
+
+    Node *posOther = other.m_pRoot;
+    Node *prev = nullptr;
+
+    while (posOther) {
+        Node *data = new Node(posOther->GetDataRef(), posOther->GetRef());
+        if (!m_pRoot){
+            m_pRoot = data;
+        }
+        else{
+            prev->GetNextRef() = data;
+        }
+
+        prev = data;
+        posOther = posOther->GetNext();
+        ++m_nElem;
+    }
 }
 
 // Move Constructor
@@ -200,14 +218,16 @@ CDoubleLinkedList<Traits>::~CDoubleLinkedList()
 {
 }
 
-// TODO: Este operador debe quedar fuera de la clase
-// template <typename Traits>
-// std::ostream &operator<<(std::ostream &os, CDoubleLinkedList<Traits> &obj){
-//     auto pRoot = obj.GetRoot();
-//     while( pRoot )
-//         os << pRoot->GetData() << " ";
-//     return os;
-// }
+// TODO: Este operador debe quedar fuera de la clase (HECHO)
+template <typename Traits>
+std::ostream& operator<<(std::ostream &os, CDoubleLinkedList<Traits> &obj){
+    auto pRoot = obj.GetRoot();
+    while( pRoot ){
+        os << pRoot->GetData() << "(" << pRoot->GetRef() << ") ";
+        pRoot = pRoot->GetNext();
+    }
+    return os;
+}
 
 void DemoDoubleLinkedList();
 

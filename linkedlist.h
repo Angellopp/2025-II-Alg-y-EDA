@@ -80,6 +80,8 @@ public:
     // TODO: Done
     CLinkedList(CLinkedList &&other);
 
+     void Destroy(); //(Hecho destructor seguro)
+
     // Destructor seguro
     virtual ~CLinkedList();
 
@@ -139,6 +141,18 @@ CLinkedList<Traits>::CLinkedList(CLinkedList &&other){
     m_pRoot    = std::move(other.m_pRoot);
     m_nElem    = std::move(other.m_nElem);
     m_fCompare = std::move(other.m_fCompare);
+}
+
+template <typename Traits>
+void CLinkedList<Traits>::Destroy(){
+    Node *pTmp = m_pRoot;
+    while(pTmp){
+        Node *pNext = pTmp->GetNext();
+        delete pTmp;
+        pTmp = pNext;
+    }
+    m_pRoot = nullptr;
+    m_nElem = 0;
 }
 
 // TODO: Implementar y liberar la memoria de cada Node

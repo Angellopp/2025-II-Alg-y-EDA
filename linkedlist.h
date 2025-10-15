@@ -69,7 +69,7 @@ public:
 
 private:
     Node   *m_pRoot = nullptr;
-    size_t m_nElem = 0;
+    size_t   = 0;
     Func   m_fCompare;
 
 public:
@@ -89,6 +89,11 @@ public:
 private:
     void InternalInsert(Node *&rParent, value_type &elem, Ref ref);
     Node *GetRoot()    {    return m_pRoot;     };
+    Node* nth_node(size_t i) {
+        Node* p = m_pRoot;
+        while (i-- && p) p = p->GetNext();
+        return p;
+    }
 
 public:
     forward_iterator begin(){ return forward_iterator(this, m_pRoot); };
@@ -108,6 +113,12 @@ public:
     
     // TODO: Read (istream &is)
     std::istream &Read (std::istream &is);
+
+    value_type& operator[](size_t i) {
+    assert(i < m_nElem && "index out of range");
+    return nth_node(i)->GetDataRef();
+}
+
 };
 
 template <typename Traits>
